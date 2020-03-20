@@ -17,12 +17,13 @@ async function main() {
         const json = JSON.parse(readedJson);
 
         const decodedPhrase = decodePhrase(json.cifrado, json.numero_casas);
+        console.log(decodedPhrase)
         json.decifrado = decodedPhrase;
         json.resumo_criptografico = encryptSha(decodedPhrase);
         const writedJson = await writeFile(JSON.stringify(json));
         const newReadedJson = await readFile();
 
-        const statusCode = await submitChallenge();
+        // const statusCode = await submitChallenge();
 
         // console.log(String(newReadedJson))
 
@@ -108,11 +109,11 @@ const decodePhrase = (phrase, numbers) => {
 }
 
 const getIndexFromAlphabet = (index, numbers) => {
-    let nextIndex = index + numbers;
-
-    if (nextIndex > (alphabet.length - 1)) {
-        nextIndex -= alphabet.length;
+    let nextIndex = index - numbers;
+    if (nextIndex < 0) {
+        nextIndex = alphabet.length - Math.abs(nextIndex);
     }
+
     return nextIndex;
 }
 

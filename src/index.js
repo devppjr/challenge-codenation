@@ -17,18 +17,14 @@ async function main() {
         const json = JSON.parse(readedJson);
 
         const decodedPhrase = decodePhrase(json.cifrado, json.numero_casas);
-        console.log(decodedPhrase)
         json.decifrado = decodedPhrase;
         json.resumo_criptografico = encryptSha(decodedPhrase);
         const writedJson = await writeFile(JSON.stringify(json));
         const newReadedJson = await readFile();
 
-        // const statusCode = await submitChallenge();
+        await submitChallenge();
 
-        // console.log(String(newReadedJson))
-
-
-
+        
 
     } catch (error) {
         console.log(error);
@@ -50,7 +46,7 @@ const submitChallenge = () => {
         if (err)
             console.log(err)
 
-        console.log(body);
+        console.log("Status: " + res.statusCode + res.statusMessage,body)
     })
 }
 const encryptSha = (phraseToDecode) => {
